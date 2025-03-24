@@ -8,12 +8,9 @@ import { ShipmentRepository } from 'src/infrastructure/repositories/shipment/shi
 import { Transactional } from 'typeorm-transactional';
 import { DeliverAtStopCommand } from './deliver-at-stop.command';
 
-@CommandHandler(DeliverAtStopCommand)
 export class DeliverAtStopHandler
-  implements ICommandHandler<DeliverAtStopCommand>
 {
   constructor(
-    @InjectRepository(ShipmentRepository)
     private readonly shipmentRepository: ShipmentRepository,
 
     @InjectRepository(OutboxMessageRepository)
@@ -21,7 +18,7 @@ export class DeliverAtStopHandler
   ) {}
 
   @Transactional()
-  async execute(command: DeliverAtStopCommand) {
+  public async handle(command: DeliverAtStopCommand) {
     const { stop_id, shipment_id } = command;
 
     const shipment = await this.shipmentRepository.getShipment(shipment_id);

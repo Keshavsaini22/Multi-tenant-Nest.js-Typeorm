@@ -11,7 +11,7 @@ services:
     environment:
       - POSTGRES_USER=${DB_USER:-postgres}
       - POSTGRES_PASSWORD=${DB_PASSWORD:-admin}
-      - POSTGRES_DB=${DB_DATABASE:-shipmentss_service_db}
+      - POSTGRES_DB=${DB_DATABASE:-shipment_multitenancy_db}
     volumes:
       - pg_data:/var/lib/postgresql/data
     networks:

@@ -6,11 +6,14 @@ import { ArriveAtStopCommand } from './arrive-at-stop.command';
 import { ArriveAtStopHandler } from './arrive-at-stop.handler';
 import { OutboxMessageRepository } from 'src/infrastructure/repositories/outbox-message/outbox-message.repository';
 
-
 @Module({
-    imports: [CqrsModule],
-    controllers: [ArriveAtStopController],
-    providers: [ShipmentRepository, OutboxMessageRepository, ArriveAtStopCommand, ArriveAtStopHandler, ArriveAtStopCommand],
+  imports: [CqrsModule],
+  controllers: [ArriveAtStopController],
+  providers: [
+    ShipmentRepository,
+    ArriveAtStopCommand,
+    ArriveAtStopHandler,
+    OutboxMessageRepository,
+  ],
 })
-
-export class ArriveAtStopModule { }
+export class ArriveAtStopModule {}

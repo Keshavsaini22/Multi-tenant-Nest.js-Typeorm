@@ -17,7 +17,7 @@ import {
   StopAlreadyInTransitConflict,
 } from './exceptions/exceptions';
 
-@Entity('stop')
+@Entity()
 export class Stop {
   @PrimaryGeneratedColumn()
   id: number;

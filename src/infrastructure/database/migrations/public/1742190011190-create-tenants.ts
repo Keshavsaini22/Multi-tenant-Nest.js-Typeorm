@@ -1,12 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateShipment1731923627299 implements MigrationInterface {
-  name = 'CreateShipment1731923627299';
+export class CreateTenant1742190011190 implements MigrationInterface {
+  name = 'CreateTenant1742190011190';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'shipment',
+        name: 'tenant',
         columns: [
           {
             name: 'id',
@@ -21,9 +21,16 @@ export class CreateShipment1731923627299 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'is_complete',
-            type: 'boolean',
-            default: false,
+            name: 'name',
+            type: 'character varying',
+            isUnique: true,
+            isNullable: false,
+          },
+          {
+            name: 'schema',
+            type: 'character varying',
+            isUnique: true,
+            isNullable: false,
           },
           {
             name: 'created_at',
@@ -43,6 +50,6 @@ export class CreateShipment1731923627299 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('shipment');
+    await queryRunner.dropTable('tenant');
   }
 }

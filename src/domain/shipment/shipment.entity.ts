@@ -17,7 +17,7 @@ import { Stop } from './stop.entity';
 import { StopStatus } from './enums/stop-status.enum';
 import { StopType } from './enums/stop-type';
 
-@Entity('shipment')
+@Entity()
 export class Shipment {
   @PrimaryGeneratedColumn()
   id: number;

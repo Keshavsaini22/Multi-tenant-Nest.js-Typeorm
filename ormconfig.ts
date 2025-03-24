@@ -1,9 +1,9 @@
+import { ConfigService } from '@nestjs/config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
-import { ConfigService } from '@nestjs/config';
 import {
-  initializeTransactionalContext,
   addTransactionalDataSource,
+  initializeTransactionalContext,
 } from 'typeorm-transactional';
 require('dotenv').config();
 
@@ -11,7 +11,7 @@ initializeTransactionalContext();
 
 let dataSourceInstance: DataSource | null = null;
 
-export const dataSourceOptions = (
+export const publicDataSourceOptions = (
   configService: ConfigService,
 ): DataSourceOptions & SeederOptions => ({
   type: 'postgres',
@@ -23,7 +23,7 @@ export const dataSourceOptions = (
   entities: ['dist/src/domain/**/*.entity.js'],
   synchronize: false,
   migrationsTableName: 'migrations',
-  migrations: ['dist/src/infrastructure/database/migrations/*.js'],
+  migrations: ['dist/src/infrastructure/database/migrations/public/*.js'],
   seedTableName: 'seeds',
   seedName: 'seeder',
   seeds: ['dist/src/infrastructure/database/seeders/*.js'],
@@ -32,9 +32,16 @@ export const dataSourceOptions = (
 
 export const dataSource = (() => {
   if (!dataSourceInstance) {
-    dataSourceInstance = new DataSource(dataSourceOptions(new ConfigService()));
+    dataSourceInstance = new DataSource(
+      publicDataSourceOptions(new ConfigService()),
+    );
     return addTransactionalDataSource(dataSourceInstance);
   }
   return dataSourceInstance;
 })();
 
+export const tenantedDataSourceOptions = (configService: ConfigService) => ({
+  ...publicDataSourceOptions(configService),
+  entities: ['dist/src/domain/**/*entity.js'],
+  migrations: ['dist/src/infrastructure/database/migrations/tenanted/*.js'],
+});
